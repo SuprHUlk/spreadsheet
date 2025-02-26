@@ -2,6 +2,30 @@
 
 A powerful spreadsheet application built with React that closely mimics Google Sheets functionality.
 
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/sheets-clone.git
+cd sheets-clone
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+4. Build for production:
+```bash
+npm run build
+```
+
 ## Tech Stack
 
 ### Frontend Framework
@@ -116,23 +140,6 @@ A powerful spreadsheet application built with React that closely mimics Google S
 - Works across modern browsers
 - Fallback support
 - Progressive enhancement
-
-## Getting Started
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start the development server:
-```bash
-npm start
-```
-
-3. Build for production:
-```bash
-npm run build
-```
 
 ## Future Improvements
 
