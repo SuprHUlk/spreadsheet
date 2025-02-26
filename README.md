@@ -141,31 +141,8 @@ npm run build
 - Fallback support
 - Progressive enhancement
 
-## Future Improvements
-
-1. **Features**
-- Multiple sheets support
-- Advanced formatting options
-- Charts and graphs
-- Cell validation
-- Conditional formatting
-
-2. **Performance**
-- Web Workers for calculations
-- IndexedDB for large datasets
-- Service Worker for offline support
-
-3. **Integration**
-- Real-time collaboration
-- Cloud storage
-- Version control
-
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Submit a pull request
-
-## License
-
-MIT License - See LICENSE file for details
