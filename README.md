@@ -1,70 +1,164 @@
-# Getting Started with Create React App
+# Sheets Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A powerful spreadsheet application built with React that closely mimics Google Sheets functionality.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+### Frontend Framework
+- **React**: Chosen for its efficient virtual DOM rendering and component-based architecture, which is crucial for handling large spreadsheet data with minimal performance impact.
+- **TailwindCSS**: Provides utility-first CSS for rapid UI development and consistent styling.
 
-### `npm start`
+### Data Structures
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Cell Data Management**
+```javascript
+{
+  "A1": "value",
+  "B2": "=SUM(A1:A5)"
+}
+```
+- Uses an object-based structure for O(1) cell access
+- Keys are cell references (e.g., "A1")
+- Values store raw input including formulas
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. **Cell Styles**
+```javascript
+{
+  "A1": {
+    fontWeight: "bold",
+    fontSize: "14px",
+    color: "#000000"
+  }
+}
+```
+- Separate object for style management
+- Efficient updates without affecting cell data
 
-### `npm test`
+3. **Selection Management**
+```javascript
+{
+  startRow: 0,
+  endRow: 2,
+  startCol: 0,
+  endCol: 1
+}
+```
+- Tracks current selection range
+- Enables efficient range operations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Key Features
 
-### `npm run build`
+1. **Formula Engine**
+- Supports mathematical functions: SUM, AVERAGE, MAX, MIN, COUNT
+- Data quality functions: TRIM, UPPER, LOWER, REMOVE_DUPLICATES, FIND_AND_REPLACE
+- Cell reference parsing and evaluation
+- Circular dependency detection
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **UI Components**
+- Toolbar with formatting options
+- Formula bar with cell reference
+- Context menu for row/column operations
+- Function tester for validation
+- Excel-like grid with resizable columns/rows
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Data Import/Export**
+- Excel file import/export support
+- Preserves formatting and formulas
+- Handles multiple sheets
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Performance Optimizations
 
-### `npm run eject`
+1. **Virtual Rendering**
+- Only renders visible cells
+- Efficient scroll handling
+- Reduced memory usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Memoization**
+- Caches formula results
+- Prevents unnecessary recalculations
+- Uses React.memo for complex components
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Batch Updates**
+- Groups cell updates
+- Minimizes re-renders
+- Efficient state management
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Security Measures
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Formula Validation**
+- Sanitizes formula inputs
+- Prevents code injection
+- Validates cell references
 
-## Learn More
+2. **Data Sanitization**
+- Cleanses imported data
+- Validates file types
+- Handles malformed input
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Error Handling**
+- Graceful error recovery
+- User-friendly error messages
+- Logging and monitoring
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Non-functional Requirements
 
-### Code Splitting
+1. **Accessibility**
+- ARIA labels
+- Keyboard navigation
+- Screen reader support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. **Responsive Design**
+- Mobile-friendly layout
+- Touch support
+- Adaptive UI
 
-### Analyzing the Bundle Size
+3. **Browser Compatibility**
+- Works across modern browsers
+- Fallback support
+- Progressive enhancement
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Getting Started
 
-### Making a Progressive Web App
+1. Install dependencies:
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Start the development server:
+```bash
+npm start
+```
 
-### Advanced Configuration
+3. Build for production:
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Future Improvements
 
-### Deployment
+1. **Features**
+- Multiple sheets support
+- Advanced formatting options
+- Charts and graphs
+- Cell validation
+- Conditional formatting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. **Performance**
+- Web Workers for calculations
+- IndexedDB for large datasets
+- Service Worker for offline support
 
-### `npm run build` fails to minify
+3. **Integration**
+- Real-time collaboration
+- Cloud storage
+- Version control
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## License
+
+MIT License - See LICENSE file for details
