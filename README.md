@@ -4,6 +4,14 @@ A powerful spreadsheet application built with React that closely mimics Google S
 
 ## Getting Started
 
+### Prerequisites
+
+- **Node.js**: v16.x or higher (v18.x recommended)
+- **npm**: v8.x or higher
+- **Modern browser**: Chrome, Firefox, Edge, or Safari (latest versions)
+
+### Installation
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/SuprHUlk/spreadsheet.git
@@ -25,6 +33,14 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 ```bash
 npm run build
 ```
+
+## Usage
+
+- **Cell Navigation**: Use Tab/Shift+Tab to move between cells
+- **Editing**: Double-click a cell or press any key when a cell is selected to edit
+- **Formulas**: Start with "=" followed by a function name (e.g., =SUM(A1:A5))
+- **Formatting**: Use the toolbar to change font, size, color, and alignment
+- **Testing Functions**: Click the "Test" button to try out functions with sample data
 
 ## Tech Stack
 
