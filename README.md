@@ -6,8 +6,8 @@ A powerful spreadsheet application built with React that closely mimics Google S
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/sheets-clone.git
-cd sheets-clone
+git clone https://github.com/SuprHUlk/spreadsheet.git
+cd spreadsheet
 ```
 
 2. Install dependencies:
