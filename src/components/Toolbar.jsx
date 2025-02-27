@@ -12,12 +12,16 @@ const FONT_FAMILIES = [
   'Impact'
 ];
 
-const FORMULAS = [
+// Reorganize formulas into categories
+const MATH_FORMULAS = [
   { label: 'SUM', example: '=SUM(:)' },
   { label: 'AVERAGE', example: '=AVERAGE(:)' },
   { label: 'COUNT', example: '=COUNT(:)' },
   { label: 'MAX', example: '=MAX(:)' },
-  { label: 'MIN', example: '=MIN(:)' },
+  { label: 'MIN', example: '=MIN(:)' }
+];
+
+const DATA_FORMULAS = [
   { label: 'TRIM', example: '=TRIM()' },
   { label: 'UPPER', example: '=UPPER()' },
   { label: 'LOWER', example: '=LOWER()' },
@@ -200,12 +204,21 @@ const Toolbar = ({
         onChange={(e) => onFormulaSelect(e.target.value)}
         value=""
       >
-        <option value="">Σ</option>
-        {FORMULAS.map(formula => (
-          <option key={formula.label} value={formula.example}>
-            {formula.label}  {formula.example}
-          </option>
-        ))}
+        <option value="">Functions</option>
+        <optgroup label="Mathematical Functions">
+          {MATH_FORMULAS.map(formula => (
+            <option key={formula.label} value={formula.example}>
+              {formula.label}  {formula.example}
+            </option>
+          ))}
+        </optgroup>
+        <optgroup label="Data Quality Functions">
+          {DATA_FORMULAS.map(formula => (
+            <option key={formula.label} value={formula.example}>
+              {formula.label}  {formula.example}
+            </option>
+          ))}
+        </optgroup>
       </select>
 
       <button 

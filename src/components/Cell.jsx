@@ -19,7 +19,8 @@ const Cell = ({
   onAddRow,
   onDeleteRow,
   onAddColumn,
-  onDeleteColumn
+  onDeleteColumn,
+  onTabNavigation
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -27,6 +28,7 @@ const Cell = ({
   const [contextMenu, setContextMenu] = useState(null);
   const cellRef = useRef(null);
   const fillHandleRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Add keyboard event listener for the document
   useEffect(() => {
@@ -42,16 +44,36 @@ const Cell = ({
 
       // Only handle keypress if this cell is primary selected and not already editing
       if (isSelected?.includes('primary') && !isEditing) {
+        // Handle tab navigation
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          onTabNavigation(name, e.shiftKey);
+          return;
+        }
+        
+        // Handle Enter key for navigation
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          // Move to the cell below
+          const [col, row] = name.match(/([A-Z]+)(\d+)/).slice(1);
+          const nextCellName = `${col}${parseInt(row) + 1}`;
+          onTabNavigation(nextCellName, false, true);
+          return;
+        }
+
         // If it's a printable character or special keys like backspace/delete
         if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
           setIsEditing(true);
-          // If it's a printable character, we want to start with that character
+          
+          // For printable characters, we want to start fresh with just that character
           if (e.key.length === 1) {
+            // Start with the character that was pressed
             onChange(e.key);
           } else {
             // For backspace/delete, we want to start with empty value
             onChange('');
           }
+          
           e.preventDefault();
         }
       }
@@ -59,11 +81,19 @@ const Cell = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isSelected, isEditing, onChange]);
+  }, [isSelected, isEditing, onChange, name, onTabNavigation]);
 
   useEffect(() => {
-    if (isSelected && isEditing && cellRef.current) {
-      cellRef.current.focus();
+    if (isSelected && isEditing && inputRef.current) {
+      inputRef.current.focus();
+      
+      // Place cursor at the end of the text
+      if (inputRef.current.value.length > 0) {
+        inputRef.current.setSelectionRange(
+          inputRef.current.value.length,
+          inputRef.current.value.length
+        );
+      }
     }
   }, [isSelected, isEditing]);
 
@@ -121,6 +151,22 @@ const Cell = ({
     onFillDragStart?.(name);
   }, [name, onFillDragStart]);
 
+  // Handle tab key navigation for input element
+  const handleInputKeyDown = (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault(); // Prevent default tab behavior
+      setIsEditing(false);
+      onTabNavigation(name, e.shiftKey);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      setIsEditing(false);
+      // Move to the cell below
+      const [col, row] = name.match(/([A-Z]+)(\d+)/).slice(1);
+      const nextCellName = `${col}${parseInt(row) + 1}`;
+      onTabNavigation(nextCellName, false, true);
+    }
+  };
+
   useEffect(() => {
     if (isDragging || isFillDragging) {
       document.addEventListener('mousemove', handleCellMouseMove);
@@ -155,13 +201,16 @@ const Cell = ({
       onDoubleClick={handleDoubleClick}
       onContextMenu={handleContextMenu}
       draggable={false}
+      tabIndex={isSelected?.includes('primary') ? 0 : -1}
     >
       {isEditing ? (
         <input
+          ref={inputRef}
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={handleBlur}
+          onKeyDown={handleInputKeyDown}
           className="w-full h-full outline-none"
           style={{ textAlign: styles.textAlign || 'left' }}
           autoFocus

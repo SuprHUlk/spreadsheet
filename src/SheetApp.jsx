@@ -855,6 +855,45 @@ function SheetApp() {
     input.click();
   };
 
+  // Add this function to handle tab navigation
+  const handleTabNavigation = (cellName, isShiftKey, isEnterKey = false) => {
+    const { row, col } = parseCell(cellName);
+    
+    let nextRow = row;
+    let nextCol = col;
+    
+    if (isEnterKey) {
+      // Move down on Enter key
+      nextRow = row + 1;
+    } else if (isShiftKey) {
+      // Move left on Shift+Tab
+      if (col > 0) {
+        nextCol = col - 1;
+      } else if (row > 0) {
+        // Move to the end of the previous row
+        nextRow = row - 1;
+        nextCol = numCols - 1;
+      }
+    } else {
+      // Move right on Tab
+      if (col < numCols - 1) {
+        nextCol = col + 1;
+      } else if (row < numRows - 1) {
+        // Move to the beginning of the next row
+        nextRow = row + 1;
+        nextCol = 0;
+      }
+    }
+    
+    // Ensure we don't go out of bounds
+    nextRow = Math.max(0, Math.min(nextRow, numRows - 1));
+    nextCol = Math.max(0, Math.min(nextCol, numCols - 1));
+    
+    // Select the next cell
+    const nextCellName = getCellName(nextRow, nextCol);
+    handleCellSelect(nextCellName);
+  };
+
   return (
     <div className="sheet-app h-screen flex flex-col">
       <Toolbar
@@ -931,7 +970,7 @@ function SheetApp() {
                   const cellStyle = cellStyles[cellName] || {};
                 return (
                     <Cell
-                    key={col}
+                    key={`${row}-${col}`}
                       name={cellName}
                       value={cells[cellName] || ''}
                       displayValue={getCellDisplayValue(cellName)}
@@ -950,6 +989,7 @@ function SheetApp() {
                       onDeleteRow={() => handleDeleteRow(row)}
                       onAddColumn={() => handleAddColumn(col)}
                       onDeleteColumn={() => handleDeleteColumn(col)}
+                      onTabNavigation={handleTabNavigation}
                     />
                 );
               })}
